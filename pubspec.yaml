@@ -1,0 +1,48 @@
+name: your_flutter_project
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^4.0.2 # Add this line to include the Google Fonts package
+  gauge_indicator: ^0.4.3
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  flutter_map_cancellable_tile_provider: ^3.0.2
+  flutter_vector_icons: ^2.0.0
+  ionicons: ^0.2.2
+  http: ^1.2.2
+  mqtt_client: ^10.5.1
+  flutter_native_splash: ^2.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0  # Add this line to include flutter_lints
+  flutter_launcher_icons: ^0.13.1  # Add the launcher icons package
+
+flutter_icons:  # Add this section for app icon configuration
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"  # Update with the path to your app icon image
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/device.png
+    - assets/profile_image.png
+
+flutter_native_splash:
+  color: "#94B9FE"  # Background color for the splash screen
+  image: "assets/splash_image.png"  # Path to your splash screen image
+  android: true  # Enable for Android
+  ios: true  # Enable for iOS
