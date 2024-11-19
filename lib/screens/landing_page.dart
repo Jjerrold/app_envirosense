@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'login_page.dart'; // Import LoginPage
-import 'mobile_home.dart'; 
+import 'mobile_home.dart';
 import 'web_home.dart';
 import 'profile_page.dart'; // Import ProfilePage
 import 'about_page.dart'; // Import AboutPage
@@ -16,29 +16,28 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  centerTitle: true,
-  title: Text(
-    "EnviroSense",
-    style: GoogleFonts.itim(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),
-  ),
-  actions: [
-    IconButton(
-      icon: const Icon(Icons.person),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-        );
-      },
-    ),
-  ],
-  backgroundColor: Colors.lightBlue[400],
-),
-
+        centerTitle: true,
+        title: Text(
+          "EnviroSense",
+          style: GoogleFonts.itim(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
+            },
+          ),
+        ],
+        backgroundColor: Colors.lightBlue[400],
+      ),
       drawer: _buildDrawer(context),
       body: isMobile(context) ? MobileHome() : WebHome(),
     );
@@ -111,21 +110,44 @@ class LandingPage extends StatelessWidget {
             leading: const Icon(Icons.logout), // Icon for Logout
             title: const Text("Logout"),
             onTap: () async {
-              // Send a request to the backend to logout
-              var url = Uri.parse('http://10.0.2.2/EnviroSense_Backend/logout.php'); // Change the URL to your actual backend
-              var response = await http.post(url);
-              
-              if (response.statusCode == 200) {
-                // If logout is successful, navigate to login page
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              } else {
-                // Handle logout failure if necessary
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logout failed. Try again.')),
-                );
+              // Show a confirmation dialog
+              bool? confirmLogout = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Confirm Logout"),
+                    content: const Text("Are you sure you want to log out?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false), // Cancel
+                        child: const Text("Cancel"),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true), // Confirm
+                        child: const Text("Logout"),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (confirmLogout == true) {
+                // Send a request to the backend to logout
+                var url = Uri.parse('http://10.0.2.2/EnviroSense_Backend/logout.php'); // Change the URL to your actual backend
+                var response = await http.post(url);
+
+                if (response.statusCode == 200) {
+                  // If logout is successful, navigate to login page
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                } else {
+                  // Handle logout failure if necessary
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Logout failed. Try again.')),
+                  );
+                }
               }
             },
           ),
