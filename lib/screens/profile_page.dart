@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Logged out successfully')));
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacementNamed(context, '/landing');
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Logout failed')));
