@@ -48,18 +48,35 @@ class _MobileHomeState extends State<MobileHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Realtime Sensor Data"),
-        backgroundColor: Colors.blueGrey[50],
-        centerTitle: true,
-        elevation: 1.0,
-      ),
-      body: Center(
-        child: SensorGauge(
-          title: sensors[_currentIndex],
-          value: values[_currentIndex],
-          icon: sensorIcons[_currentIndex],
-        ),
+      body: Column(
+        children: [
+          // Custom header
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(20.0),
+            color: Colors.blueGrey[50],
+            child: Center(
+              child: Text(
+                "Realtime Sensor Data",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 23,
+                ),
+              ),
+            ),
+          ),
+
+          // Sensor gauge
+          Expanded(
+            child: Center(
+              child: SensorGauge(
+                title: sensors[_currentIndex],
+                value: values[_currentIndex],
+                icon: sensorIcons[_currentIndex],
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: sensors.asMap().entries.map((entry) {
