@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'about_page.dart';
 import 'mobile_home.dart';
 import 'web_home.dart';
 import 'login_page.dart'; // Import LoginPage
+import 'location_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -81,7 +82,10 @@ class _LandingPageState extends State<LandingPage> {
             title: const Text("Location"),
             onTap: () {
               Navigator.pop(context);
-              // Add your desired page navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LocationPage()),
+              );
             },
           ),
           ListTile(
@@ -89,7 +93,10 @@ class _LandingPageState extends State<LandingPage> {
             title: const Text("About"),
             onTap: () {
               Navigator.pop(context);
-              // Add your desired page navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
             },
           ),
         ],
