@@ -3,26 +3,32 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'mobile_home.dart';
 import 'web_home.dart';
-import 'login_page.dart'; // Import LoginPage
+import 'profile_page.dart';
+import 'about_page.dart';
+import 'records_page.dart';
+import 'location_page.dart';
+import 'login_page.dart';
+import 'package:http/http.dart' as http;
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({super.key});
+class AdminLandingPage extends StatefulWidget {
+  const AdminLandingPage({super.key});
 
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  State<AdminLandingPage> createState() => _AdminLandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Key for the scaffold
+class _AdminLandingPageState extends State<AdminLandingPage> {
+  bool isLoggedIn = true; // Default to true since this is the admin landing page.
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Set the key for the scaffold
+      key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "EnviroSense",
+          "Admin",
           style: GoogleFonts.itim(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -30,23 +36,23 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
         actions: [
-          // Profile icon that opens a drawer
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              _scaffoldKey.currentState?.openEndDrawer(); // Opens the end drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
             },
           ),
         ],
         backgroundColor: Colors.lightBlue[400],
       ),
-      drawer: _buildDrawer(context), // Side navigation drawer
-      endDrawer: _buildProfileDrawer(context), // Drawer for the profile icon
+      drawer: _buildDrawer(context),
       body: isMobile(context) ? MobileHome() : WebHome(),
     );
   }
 
-  // Function to build the main side nav (drawer)
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -81,7 +87,21 @@ class _LandingPageState extends State<LandingPage> {
             title: const Text("Location"),
             onTap: () {
               Navigator.pop(context);
-              // Add your desired page navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LocationPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.assignment),
+            title: const Text("Records"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecordsPage()),
+              );
             },
           ),
           ListTile(
@@ -89,46 +109,32 @@ class _LandingPageState extends State<LandingPage> {
             title: const Text("About"),
             onTap: () {
               Navigator.pop(context);
-              // Add your desired page navigation
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Function to build the drawer for the profile icon
-  Widget _buildProfileDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.lightBlue[300]),
-            child: Column(
-              children: [
-                Image.asset('assets/logo.png', height: 100),
-                const SizedBox(height: 0),
-                Text(
-                  "EnviroSense",
-                  style: GoogleFonts.itim(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.login),
-            title: const Text("Admin Login"),
-            onTap: () {
-              Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()), // Navigate to login page
+                MaterialPageRoute(builder: (context) => AboutPage()),
               );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Logout"),
+            onTap: () async {
+              var url = Uri.parse('http://10.0.2.2/EnviroSense_Backend/logout.php');
+              var response = await http.post(url);
+
+              if (response.statusCode == 200) {
+                setState(() {
+                  isLoggedIn = false;
+                });
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Logout failed. Please try again.')),
+                );
+              }
             },
           ),
         ],

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'screens/landing_page.dart';
 import 'screens/login_page.dart';
+import 'screens/admin_landing.dart';
 
 void main() {
   runApp(EnviroSenseApp());
 }
 
 class EnviroSenseApp extends StatelessWidget {
-  Future<bool> checkLoginStatus() async {
-    // Placeholder for actual login status check
-    return false; // Change this based on your actual logic
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,31 +21,16 @@ class EnviroSenseApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      initialRoute: '/', // Home screen after checking login status
+      initialRoute: '/', // Set the landing page as the initial route
       routes: {
-        '/': (context) => FutureBuilder<bool>(
-              future: checkLoginStatus(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  bool isLoggedIn = snapshot.data ?? false;
-                  if (isLoggedIn) {
-                    return LandingPage();
-                  } else {
-                    return LoginPage(); // Show LoginPage if not logged in
-                  }
-                }
-              },
-            ),
-        '/landingpage': (context) => LandingPage(), // Add this route for landing page
-        '/login': (context) => LoginPage(), // Explicitly define login route
+        '/': (context) => LandingPage(), // LandingPage is now the initial screen
+        '/landingpage': (context) => LandingPage(),
+        '/login': (context) => LoginPage(),
+        '/admin_landing': (context) => AdminLandingPage(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
-          builder: (context) => LoginPage(), // Navigate to LoginPage if route not found
+          builder: (context) => LandingPage(), // Fallback to LandingPage
         );
       },
     );

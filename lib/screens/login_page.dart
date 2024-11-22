@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final response = await Network.loginUser(username, password);
       if (response['success']) {
-        Navigator.pushReplacementNamed(context, '/landingpage');
+        Navigator.pushReplacementNamed(context, '/admin_landing');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response['message'])),
