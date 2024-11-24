@@ -39,94 +39,104 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.blue[100],
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              Image.asset('assets/logo.png', height: 150),
-              const SizedBox(height: 15),
-              Text(
-                'EnviroSense',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Colors.blue[900],
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Admin Login',
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                child: TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
+          child: SingleChildScrollView(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Define a max width for larger screens
+                double maxWidth = constraints.maxWidth > 600 ? 400 : constraints.maxWidth * 0.8;
+
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    Image.asset('assets/logo.png', height: 150),
+                    const SizedBox(height: 15),
+                    Text(
+                      'EnviroSense',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40,
+                        color: Colors.blue[900],
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(40),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Admin Login',
+                      style: TextStyle(fontSize: 20),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(40),
+                    const SizedBox(height: 40),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: (constraints.maxWidth - maxWidth) / 2),
+                      child: TextField(
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: 'Username',
+                        ),
+                        style: const TextStyle(color: Colors.black),
+                      ),
                     ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: 'Username',
-                  ),
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: (constraints.maxWidth - maxWidth) / 2),
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: 'Password',
+                        ),
+                        style: const TextStyle(color: Colors.black),
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(40),
+                    const SizedBox(height: 30),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[800],
+                          minimumSize: Size(maxWidth, 50),
+                        ),
+                        onPressed: _login,
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: 'Password',
-                  ),
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[800],
-                    minimumSize: const Size(270, 50),
-                  ),
-                  onPressed: _login,
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
