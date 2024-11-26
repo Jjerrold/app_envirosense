@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../widgets/sensor_gauge.dart';
-import '../mqtt_service.dart';
 
 class MobileHome extends StatefulWidget {
   @override
@@ -8,40 +9,42 @@ class MobileHome extends StatefulWidget {
 }
 
 class _MobileHomeState extends State<MobileHome> {
-  final mqttService = MqttService();
-
-  int _currentIndex = 0;
-  final List<String> sensors = ["Temperature", "Humidity", "Gas", "Noise", "Dust"];
-  final List<double> values = [0.0, 0.0, 0.0, 0.0, 0.0];
-  final List<IconData> sensorIcons = [
+  List<String> sensors = ["Temperature", "Humidity", "Gas", "Noise", "Dust"];
+  List<double> values = [0.0, 0.0, 0.0, 0.0, 0.0];
+  List<IconData> sensorIcons = [
     Icons.thermostat,
     Icons.water,
     Icons.cloud,
     Icons.hearing,
     Icons.filter_drama,
   ];
+  int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    mqttService.connect().then((_) {
-      mqttService.subscribe('sensors/temperature', (message) => _updateSensorValue(0, message));
-      mqttService.subscribe('sensors/humidity', (message) => _updateSensorValue(1, message));
-      mqttService.subscribe('sensors/gas', (message) => _updateSensorValue(2, message));
-      mqttService.subscribe('sensors/noise', (message) => _updateSensorValue(3, message));
-      mqttService.subscribe('sensors/dust', (message) => _updateSensorValue(4, message));
-    });
+    fetchSensorData();
   }
 
-  void _updateSensorValue(int index, String message) {
-    setState(() {
-      values[index] = double.tryParse(message) ?? values[index];
-    });
+  fetchSensorData() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:5000/get-sensor-data'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        for (var reading in data) {
+          int index = sensors.indexOf(reading['sensor_name']);
+          if (index != -1) {
+            values[index] = double.parse(reading['sensor_value']);
+          }
+        }
+      });
+    } else {
+      print("Failed to fetch sensor data: ${response.statusCode}");
+    }
   }
 
   @override
   void dispose() {
-    mqttService.disconnect();
     super.dispose();
   }
 
