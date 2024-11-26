@@ -1,16 +1,15 @@
 # app_envirosense
 
-A new Flutter project.
+A Flutter project.
 
-## Getting Started
+## Run through localhost (phpmyadmin) using an emulator
 
-This project is a starting point for a Flutter application.
+### Backend (php files) - Use gsuite account
+https://drive.google.com/drive/folders/1C_kpeOLB_TUW4lS4vrZoxeAZQdpNOWtY?usp=sharing
+<br>note: Place the "EnviroSense_Backend" folder inside htdocs (example path: "C:\xampp\htdocs\EnviroSense_Backend")
 
-A few resources to get you started if this is your first Flutter project:
+### Database file
+https://drive.google.com/drive/folders/1Xqn9SWhHh3NKBQS4TwzTc4WvxnoGzvuq?usp=sharing
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Code for esp32
+https://drive.google.com/drive/folders/1R4S8-c1aPijIwtlhZDA8b8WSn6wtS3rr?usp=sharing
