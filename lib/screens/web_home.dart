@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../widgets/sensor_gauge.dart';
 import 'dart:async';
 
@@ -23,17 +25,36 @@ class _WebHomeState extends State<WebHome> {
   }
 
   Future<void> fetchSensorData() async {
-    // Replace this with your actual data-fetching code.
-    // For example, if you use an HTTP GET request to fetch JSON data, parse it, and update the sensor values
     try {
-      // Example: Mocking real-time data (replace with actual HTTP request)
-      setState(() {
-        temperature = 26.5; // Replace with actual temperature from backend
-        humidity = 58.0;    // Replace with actual humidity from backend
-        gas = 20.0;         // Replace with actual gas level from backend
-        noise = 35.0;       // Replace with actual noise level from backend
-        dust = 12.5;        // Replace with actual dust level from backend
-      });
+      // Replace with your actual Python backend URL
+      final response = await http.get(Uri.parse('http://127.0.0.1:5000/get-sensor-data'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        setState(() {
+          for (var reading in data) {
+            switch (reading['sensor_name']) {
+              case "Temperature":
+                temperature = double.parse(reading['sensor_value']);
+                break;
+              case "Humidity":
+                humidity = double.parse(reading['sensor_value']);
+                break;
+              case "Gas":
+                gas = double.parse(reading['sensor_value']);
+                break;
+              case "Noise":
+                noise = double.parse(reading['sensor_value']);
+                break;
+              case "Dust":
+                dust = double.parse(reading['sensor_value']);
+                break;
+            }
+          }
+        });
+      } else {
+        print("Failed to fetch sensor data: ${response.statusCode}");
+      }
     } catch (e) {
       print("Error fetching sensor data: $e");
     }
