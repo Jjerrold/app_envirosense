@@ -17,7 +17,7 @@ class LocationPage extends StatelessWidget {
       ),
       body: FlutterMap(
         options: MapOptions(
-          initialCenter: LatLng(13.7603, 121.0583), // Centered over Barangay Balagtas
+          initialCenter: LatLng(13.7852, 121.0748), // Centered over BSU Alangilan
           initialZoom: 13.0, // Set the initial zoom level
         ),
         children: [
@@ -31,7 +31,7 @@ class LocationPage extends StatelessWidget {
               Marker(
                 width: 80.0,
                 height: 80.0,
-                point: LatLng(13.7603, 121.0583), // Coordinates for Barangay Balagtas
+                point: LatLng(13.7612, 121.0588), // Coordinates for BSU Alangilan
                 child: Icon(
                   Icons.location_pin,
                   color: Colors.red,
