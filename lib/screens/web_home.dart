@@ -26,7 +26,7 @@ class _WebHomeState extends State<WebHome> {
 
   Future<void> fetchSensorData() async {
     try {
-      // Replace with your actual Python backend URL
+      // Replace with your actual backend URL
       final response = await http.get(Uri.parse('http://127.0.0.1:5000/get-sensor-data'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -78,18 +78,28 @@ class _WebHomeState extends State<WebHome> {
       childAspectRatio = 1.2;
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: childAspectRatio,
-        children: [
-          SensorGauge(title: "Temperature", value: temperature, icon: Icons.thermostat),
-          SensorGauge(title: "Humidity", value: humidity, icon: Icons.water),
-          SensorGauge(title: "Gas", value: gas, icon: Icons.cloud),
-          SensorGauge(title: "Noise", value: noise, icon: Icons.hearing),
-          SensorGauge(title: "Dust", value: dust, icon: Icons.filter_drama),
-        ],
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.count(
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: childAspectRatio,
+          children: [
+            SensorGauge(title: "Temperature", value: temperature, icon: Icons.thermostat),
+            SensorGauge(title: "Humidity", value: humidity, icon: Icons.water),
+            SensorGauge(title: "Gas", value: gas, icon: Icons.cloud),
+            SensorGauge(title: "Noise", value: noise, icon: Icons.hearing),
+            SensorGauge(title: "Dust", value: dust, icon: Icons.filter_drama),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          fetchSensorData(); // Trigger data refresh
+        },
+        child: const Icon(Icons.refresh),
+        backgroundColor: Colors.blue,
+        tooltip: 'Refresh Data',
       ),
     );
   }

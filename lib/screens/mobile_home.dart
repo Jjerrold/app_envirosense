@@ -99,6 +99,14 @@ class _MobileHomeState extends State<MobileHome> {
           });
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          fetchSensorData(); // Refresh sensor data
+        },
+        backgroundColor: Colors.lightBlue[300],
+        child: Icon(Icons.refresh),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
