@@ -45,21 +45,21 @@ class _RecordsPageState extends State<RecordsPage> {
         children: [
           const TabBar(
             tabs: [
-              Tab(text: "Temperature (°C)"),
-              Tab(text: "Humidity (%)"),
-              Tab(text: "Particulate Matter (µg/m³)"),
-              Tab(text: "TVOC (ppb)"),
-              Tab(text: "Noise (dB)"),
+              Tab(text: "Temperature"),
+              Tab(text: "Humidity"),
+              Tab(text: "Particulate Matter"),
+              Tab(text: "TVOC"),
+              Tab(text: "Noise"),
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                buildTable("Temperature Records"),
-                buildTable("Humidity Records"),
-                buildTable("Particulate Matter Records"),
-                buildTable("TVOC Records"),
-                buildTable("Noise Records"),
+                buildTable("Temperature Records (°C)"),
+                buildTable("Humidity Records (%)"),
+                buildTable("Particulate Matter Records (µg/m³)"),
+                buildTable("TVOC Records (ppb)"),
+                buildTable("Noise Records (dB)"),
               ],
             ),
           ),
